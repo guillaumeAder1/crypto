@@ -49,7 +49,7 @@ class Filter extends React.Component {
     render() {
 
         return (
-            <Container>
+            <Container fluid>
                 <Form inline className="pad">
                     <Row>
                         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
