@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
-import { Button, Form, FormGroup, Label, Input, FormText, Container } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, Col } from 'reactstrap';
 import Currencies from '../currencies'
 
 
@@ -16,6 +16,12 @@ class Filter extends React.Component {
             matches: false
         };
     }
+
+    // componentDidMount() {
+    //     this.setState({
+    //         matches: this.props.results ? this.props.results.Data : false
+    //     })
+    // }
     updateInputValue(evt, element) {
         if (element === 'name') {
             this.setState({
@@ -29,11 +35,11 @@ class Filter extends React.Component {
 
     }
     dofilter() {
-        console.log(this.state)
-        const matches = this.props.results.Data.filter(d => {
+
+        const matches = this.state.name ? this.props.results.Data.filter(d => {
             const name = d.CoinName.toLowerCase();
             return (name.indexOf(this.state.name.toLowerCase()) > -1) ? true : false;
-        }, this)
+        }, this) : this.props.results.Data;
         const truncated = (this.state.max > 0) ? matches.slice(0, this.state.max) : matches;
         this.setState({
             matches: truncated
@@ -44,16 +50,19 @@ class Filter extends React.Component {
 
         return (
             <Container>
-                <Form inline>
-                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                        <Label for="name" className="mr-sm-2">Name</Label>
-                        <Input value={this.state.name} onChange={evt => this.updateInputValue(evt, 'name')} type="text" name="name" id="name" placeholder="Name contains..." />
-                    </FormGroup>
-                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                        <Label for="max" className="mr-sm-2">Max results</Label>
-                        <Input value={this.state.max} onChange={evt => this.updateInputValue(evt, 'max')} min='0' type="number" name="max" id="max" placeholder="max results" />
-                    </FormGroup>
-                    <Button onClick={e => this.dofilter()}>Submit</Button>
+                <Form inline className="pad">
+                    <Row>
+                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                            <Label for="name" className="mr-sm-2">Name</Label>
+                            <Input value={this.state.name} onChange={evt => this.updateInputValue(evt, 'name')} type="text" name="name" id="name" placeholder="Name contains..." />
+                        </FormGroup>
+                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                            <Label for="max" className="mr-sm-2">Max results</Label>
+                            <Input value={this.state.max} onChange={evt => this.updateInputValue(evt, 'max')} min='0' type="number" name="max" id="max" placeholder="max results" />
+                        </FormGroup>
+                        <Button onClick={e => this.dofilter()}>Submit</Button>
+                    </Row>
+
                 </Form>
                 <Currencies data={this.state.matches} />
             </Container>
@@ -72,5 +81,5 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    //mapDispatchToProps
 )(Filter)

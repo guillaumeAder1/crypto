@@ -2,7 +2,7 @@ import React from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button, Container, Row, Col, Collapse } from 'reactstrap';
+import { Button, Container, Row, Col, Collapse, Badge } from 'reactstrap';
 
 
 
@@ -30,19 +30,21 @@ class Sidebar extends React.Component {
         const list = this.props.watched ? this.createList(this.props.watched) : false;
         return (
             <Container id="sidebar" fluid>
-                <Row>
+                <Row className="box bottom">
                     <Col>Item 1</Col>
                 </Row>
-                <Row>
-                    <Col onClick={this.toggle}>Watched</Col>
+                <Row className="box bottom">
+                    {/* <Col md='12' xs='12' onClick={this.toggle}>Watched</Col> */}
+                    <div className="menu" md='12' xs='12' onClick={this.toggle}>Watched <Badge className="float-right" color="secondary">{this.props.watched.length}</Badge></div>
                     <Collapse isOpen={this.state.collapse}>
                         {list}
                     </Collapse>
+
                 </Row>
-                <Row>
+                <Row className="box bottom">
                     <Col>Item 3</Col>
                 </Row>
-                <Row>
+                <Row className="box bottom">
                     <Col>Item 4</Col>
                 </Row>
             </Container>

@@ -18,10 +18,11 @@ header {
     -webkit-box-shadow: -1px 4px 19px -8px rgba(97, 97, 97, 0.5);
     -moz-box-shadow: -1px 4px 19px -8px rgba(97, 97, 97, 0.5);
     box-shadow: -1px 4px 19px -8px rgba(97, 97, 97, 0.5);
+    border-bottom: 1px solid rgb(202, 202, 202);
 }
 
 main {
-    padding: 20px;
+    /* padding: 20px; */
 }
 
 table tr:hover {
@@ -31,7 +32,7 @@ table tr:hover {
 }
 
 #sidebar .row {
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid rgb(231, 231, 231);
     padding: 15px 0;
 }
 
@@ -41,5 +42,61 @@ table tr:hover {
 
 .sidebar-height {
     /* height: 100%; */
-    border-right: 1px solid grey;
+    border-right: 1px solid rgb(202, 202, 202);
+    background: rgba(255, 255, 255, 1);
+    background: -moz-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(255, 255, 255, 1)), color-stop(100%, rgba(250, 250, 250, 1)));
+    background: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#fafafa', GradientType=1);
+}
+
+#sidebar ul {
+    list-style: none;
+}
+
+#sidebar div.menu {
+    width: 100%;
+}
+
+.pad {
+    padding: 20px;
+}
+
+.container-fluid {
+    padding-top: 5px;
+}
+
+.box:hover {
+    /* height: 150px;
+    width: 300px;
+    margin: 20px;
+    border: 1px solid #ccc; */
+    box-shadow: 0 6px 6px -5px rgb(136, 136, 136);
+}
+
+.box {
+    transition: box-shadow 0.5s ease-in-out;
+}
+
+.top {
+    box-shadow: 0 -5px 5px -5px #333;
+}
+
+.right {
+    box-shadow: 5px 0 5px -5px #333;
+}
+
+.bottom {
+    box-shadow: 0 5px 5px -5px rgb(136, 136, 136);
+}
+
+.left {
+    box-shadow: -5px 0 5px -5px #333;
+}
+
+.all {
+    box-shadow: 0 0 5px #333;
 }

@@ -43,7 +43,7 @@ class Currencies extends React.Component {
       }
 
     }, this);
-    const table = <Table id='currencies-table'>
+    const table = <Table dark responsive id='currencies-table'>
       <thead>
         <tr>
           <th>ID</th>
@@ -83,6 +83,7 @@ class Currencies extends React.Component {
     } else {
       currencies = this.returnCurrencies(this.props.data, this.state.BaseImageUrl)
     }
+
     return (
       <Container fluid>
         <Row>
