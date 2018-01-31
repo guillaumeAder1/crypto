@@ -8,7 +8,7 @@ import { max } from 'd3-array';
 import { select } from 'd3-selection';
 
 
-class Home extends React.Component {
+class Graph extends React.Component {
 
 
   getData(data) {
@@ -74,4 +74,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home)
+)(Graph)

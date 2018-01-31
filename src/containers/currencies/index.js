@@ -10,23 +10,33 @@ import { Button, Container, Row, Col, Table, Collapse, CardBody, Card, Media } f
 
 class Currencies extends React.Component {
 
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      BaseImageUrl: false
+    };
+  }
   componentWillMount() {
     this.props.search()
   }
 
   returnCurrencies(data, basepath) {
-    const list = Object.keys(data);
+    if (!this.state.BaseImageUrl) {
+      this.setState({
+        BaseImageUrl: basepath
+      })
+    }
 
-    const ret = list.map((element, i) => {
+    // const list = Object.keys(data);
+    const ret = data.map((element, i) => {
       if (i < 50) {
-        return <tr key={i} onClick={e => this.addOrRemoveCurrency(data[element])}>
-          <th scope="row">{data[element].Id}</th>
-          <td>{data[element].CoinName.toUpperCase()}</td>
-          <td>{data[element].Name}</td>
-          <td>{data[element].Algorithm}</td>
-          <td><Button color="success" onClick={(e) => this.selectCoin(data[element].Symbol)}>More...</Button></td>
-          <td><img src={basepath + data[element].ImageUrl + '?width=25'} /></td>
+        return <tr key={i} onClick={e => this.addOrRemoveCurrency(element)}>
+          <th scope="row">{element.Id}</th>
+          <td>{element.CoinName.toUpperCase()}</td>
+          <td>{element.Name}</td>
+          <td>{element.Algorithm}</td>
+          <td><Button color="success" onClick={(e) => this.selectCoin(element.Symbol)}>More...</Button></td>
+          <td><img src={basepath + element.ImageUrl + '?width=25'} /></td>
         </tr>
       } else {
         return;
@@ -67,7 +77,12 @@ class Currencies extends React.Component {
     this.props.select(coin);
   }
   render() {
-    const currencies = this.props.results ? this.returnCurrencies(this.props.results.Data, this.props.results.BaseImageUrl) : false;
+    let currencies;
+    if (!this.props.data) {
+      currencies = this.props.results ? this.returnCurrencies(this.props.results.Data, this.props.results.BaseImageUrl) : false;
+    } else {
+      currencies = this.returnCurrencies(this.props.data, this.state.BaseImageUrl)
+    }
     return (
       <Container fluid>
         <Row>

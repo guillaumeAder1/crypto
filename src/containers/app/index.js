@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom'
-import Home from '../home'
-import Currencies from '../currencies'
+import Graph from '../graph'
 import Sidebar from '../sidebar'
+import Filter from '../filter'
 import 'bootstrap/dist/css/bootstrap.css';
 import {
   Collapse,
@@ -48,12 +48,9 @@ class App extends React.Component {
               <Nav className="ml-auto" navbar>
                 <NavItem>
                   <Link to="/"><NavLink>Currencies List</NavLink></Link>
-                  {/* <Link to="/about-us">About</Link> */}
                 </NavItem>
                 <NavItem>
                   <Link to="/details"><NavLink>Details</NavLink></Link>
-                  {/* <Link to="/">Home</Link> */}
-
                 </NavItem>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
@@ -83,8 +80,10 @@ class App extends React.Component {
             </Col>
             <Col md='10' xs='12'>
               <main>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/details" component={Currencies} />
+                <Route exact path="/" component={Graph} />
+                <Route exact path="/details" component={Filter} />
+                {/* <Route exact path="/details" component={Currencies} /> */}
+                {/* <Route exact path="/details" render={(props) => (<Currencies data="toto" />)} /> */}
               </main>
             </Col>
           </Row>

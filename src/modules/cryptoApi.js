@@ -39,9 +39,14 @@ export const search = () => {
         dispatch({
             type: FETCHING,
             payload: axios.get('https://min-api.cryptocompare.com/data/all/coinlist').then(res => {
+                const arr = Object.keys(res.data.Data);
+                const ret = arr.map((d, i) => {
+                    return res.data.Data[d]
+                }, this)
+                const f = ret.slice(0, 50)
                 dispatch({
                     type: CURRENCY_FOUND,
-                    payload: res.data
+                    payload: { BaseImageUrl: res.data.BaseImageUrl, Data: f }
                 })
             })
         })
