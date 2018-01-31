@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Link } from 'react-router-dom'
 import Home from '../home'
 import Currencies from '../currencies'
+import Sidebar from '../sidebar'
 import 'bootstrap/dist/css/bootstrap.css';
 import {
   Collapse,
@@ -14,7 +15,10 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Container,
+  Row,
+  Col
 } from 'reactstrap';
 
 
@@ -72,11 +76,23 @@ class App extends React.Component {
             </Collapse>
           </Navbar>
         </header>
+        <Container fluid>
+          <Row>
+            <Col className="sidebar-height" md='2' xs='12'>
+              <Sidebar />
+            </Col>
+            <Col md='10' xs='12'>
+              <main>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/details" component={Currencies} />
+              </main>
+            </Col>
+          </Row>
+        </Container>
 
-        <main>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/details" component={Currencies} />
-        </main>
+        <Container>
+          <Row></Row>
+        </Container>
       </div>
     );
   }

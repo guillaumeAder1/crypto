@@ -14,4 +14,4 @@ yarn start
 npm start
 ```
 
-This boilerplate is built using [create-react-app-redux.git] so you will want to read the User Guide for more goodies.
+This app is built using [create-react-app-redux.git].

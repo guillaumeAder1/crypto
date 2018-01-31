@@ -35,9 +35,6 @@ export default (state = initialState, action) => {
 }
 
 export const search = () => {
-    //https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR
-    //https://www.cryptocompare.com/api/data/coinlist/
-    //https://min-api.cryptocompare.com/data/all/coinlist
     return (dispatch) => {
         dispatch({
             type: FETCHING,
@@ -64,3 +61,7 @@ export const select = (symbol) => {
         })
     }
 }
+
+//https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR
+//https://www.cryptocompare.com/api/data/coinlist/
+//https://min-api.cryptocompare.com/data/all/coinlist

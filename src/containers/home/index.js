@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Button, Container, Row, Col } from 'reactstrap';
 import { scaleLinear } from 'd3-scale';
 import { max } from 'd3-array';
-import { select } from 'd3-selection'
+import { select } from 'd3-selection';
 
 
 class Home extends React.Component {
