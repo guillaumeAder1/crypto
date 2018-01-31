@@ -3,8 +3,16 @@ import { routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
 import createHistory from 'history/createBrowserHistory'
 import rootReducer from './modules'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
 export const history = createHistory()
+// presist store after refesh page
+const persistConfig = {
+  key: 'root',
+  storage: storage,
+}
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const initialState = {}
 const enhancers = []
@@ -31,3 +39,4 @@ export default createStore(
   initialState,
   composedEnhancers
 )
+
