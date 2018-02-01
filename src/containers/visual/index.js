@@ -21,7 +21,7 @@ class VisualManager extends React.Component {
                 <h5>
                     Visual Manager
                 </h5>
-                {isMultiResults.length ? <MultiVisual data={isMultiResults} /> : false}
+                {isMultiResults.length ? <MultiVisual data={isMultiResults} type='line' /> : false}
 
             </div>
         );
