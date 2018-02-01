@@ -8,13 +8,28 @@ import * as d3 from 'd3'
 class Multiple extends React.Component {
     constructor() {
         super()
-        this.colors = ['red', 'blue', 'yellow', 'green']
+        this.colors = ['#33ccff', '#ff6633', '#ff33ff', '#ff9933', '#9933ff', '#ffff33',
+            '#99ff33', '#ff3333', '#33ff66', '#ff3333', '#33ffff', '#3366ff',
+            '#cc33ff', '#6633ff', '#ff3399']
         this.state = {
-            list: null
+            list: null,
+            colors: null
         }
     }
-
+    createColors(nbr) {
+        // let listColors =[]
+        // for (let i = 0; i < nbr ; i ++){
+        //     listColors.push()
+        // }
+        // this.setState({
+        //     colors: this.get
+        // })
+    }
+    // getRandomInt(min, max) {
+    //     return Math.floor(Math.random() * (max - min + 1)) + min;
+    // }
     componentDidMount() {
+        // this.createColors(this.props.data.length)
         const list = this.props.data.map((e, i) => {
             const css = {
                 backgroundColor: this.colors[i]
@@ -67,7 +82,6 @@ class Multiple extends React.Component {
                     y: d.high,
                 }
             })
-            console.log(d)
             const maxY = d3.max(d, d => d.y);
             const maxX = d3.max(d, d => d.x);
             const minX = d3.min(d, d => d.x);
@@ -110,6 +124,12 @@ class Multiple extends React.Component {
         }
 
 
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
+        d3.select(this.node).selectAll('g').remove()
+        this.initDraw()
     }
     render() {
         return (

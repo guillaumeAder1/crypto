@@ -29,7 +29,8 @@ export default (state = initialState, action) => {
         case FETCHING:
             return {
                 ...state,
-                fetching: true
+                fetching: true,
+                multiResults: false
             }
         case SELECT_COIN:
             return {
@@ -64,10 +65,11 @@ export const search = () => {
     }
 }
 
-export const searchMulti = (list) => {
+export const searchMulti = (list, type = 'histoday') => {
+
     return (dispatch) => {
         const requests = list.map(e => {
-            return axios.get((`https://min-api.cryptocompare.com/data/histoday?fsym=${e}&tsym=USD&limit=60&aggregate=3&e=CCCAGG`))
+            return axios.get((`https://min-api.cryptocompare.com/data/${type}?fsym=${e}&tsym=USD&limit=60&aggregate=3&e=CCCAGG`))
         })
         dispatch({
             type: FETCHING,
