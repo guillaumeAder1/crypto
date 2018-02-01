@@ -26,9 +26,20 @@ main {
 }
 
 table tr:hover {
-    -webkit-box-shadow: 0px 2px 10px 0px rgba(135, 135, 135, 0.4);
-    -moz-box-shadow: 0px 2px 10px 0px rgba(135, 135, 135, 0.4);
-    box-shadow: 0px 2px 10px 0px rgba(135, 135, 135, 0.4);
+    background: rgba(255, 255, 255, 1);
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 245, 1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 255, 255, 1)), color-stop(100%, rgba(245, 245, 245, 1)));
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 245, 1) 100%);
+    background: -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 245, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 245, 1) 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 245, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f5f5f5', GradientType=0);
+}
+
+table tr {
+    font-size: 0.9em;
+    padding: 10px;
+    margin: 10px;
 }
 
 #sidebar .row {
@@ -58,6 +69,7 @@ table tr:hover {
     margin-bottom: 3px;
     font-size: 0.9em;
     padding-left: 20px;
+    text-transform: lowercase;
 }
 
 #sidebar div.menu {
@@ -80,8 +92,19 @@ table tr:hover {
     box-shadow: 0 6px 6px -5px rgb(136, 136, 136);
 }
 
+tr.iswatched {
+    background: rgba(242, 242, 242, 1);
+    background: -moz-linear-gradient(top, rgba(242, 242, 242, 1) 0%, rgba(252, 252, 252, 1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(242, 242, 242, 1)), color-stop(100%, rgba(252, 252, 252, 1)));
+    background: -webkit-linear-gradient(top, rgba(242, 242, 242, 1) 0%, rgba(252, 252, 252, 1) 100%);
+    background: -o-linear-gradient(top, rgba(242, 242, 242, 1) 0%, rgba(252, 252, 252, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(242, 242, 242, 1) 0%, rgba(252, 252, 252, 1) 100%);
+    background: linear-gradient(to bottom, rgba(242, 242, 242, 1) 0%, rgba(252, 252, 252, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#fcfcfc', GradientType=0);
+}
+
 .box {
-    transition: box-shadow 0.5s ease-in-out;
+    /* transition: box-shadow 0.5s ease-in-out; */
 }
 
 .top {
@@ -102,4 +125,10 @@ table tr:hover {
 
 .all {
     box-shadow: 0 0 5px #333;
+}
+
+.table th,
+.table td {
+    vertical-align: baseline;
+    padding: 0 0.75rem;
 }

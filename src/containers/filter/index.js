@@ -18,11 +18,6 @@ class Filter extends React.Component {
         };
     }
 
-    // componentDidMount() {
-    //     this.setState({
-    //         matches: this.props.results ? this.props.results.Data : false
-    //     })
-    // }
 
     componentWillMount() {
         this.props.search()

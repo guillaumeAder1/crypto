@@ -34,12 +34,11 @@ class Sidebar extends React.Component {
                     <Col>Item 1</Col>
                 </Row>
                 <Row className="box bottom">
-                    {/* <Col md='12' xs='12' onClick={this.toggle}>Watched</Col> */}
                     <div className="menu" md='12' xs='12' onClick={this.toggle}>Watched <Badge className="float-right" color="secondary">{this.props.watched.length}</Badge></div>
-                    <Collapse isOpen={this.state.collapse}>
+                    <Collapse className="btn-block" isOpen={this.state.collapse}>
                         {list}
+                        {list.length > 1 ? <Button block outline size="sm" color="secondary" >Compare</Button> : null}
                     </Collapse>
-
                 </Row>
                 <Row className="box bottom">
                     <Col>Item 3</Col>

@@ -45,7 +45,7 @@ class Graph extends React.Component {
     return (
       <Container>
         <Row>
-          <Button onClick={() => this.props.changePage()}>Go to about page via redux</Button>
+          <Button onClick={() => this.props.changePage()}>back</Button>
         </Row>
         <Row>
           <Col md='3' xs='12'>

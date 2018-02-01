@@ -4,6 +4,7 @@ import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 import { search, select } from '../../modules/cryptoApi';
 import { add, remove } from '../../modules/userSettings';
+import Gridrow from '../gridrow';
 import { Button, Container, Row, Col, Table, Collapse, CardBody, Card, Media } from 'reactstrap';
 
 
@@ -12,19 +13,13 @@ class Currencies extends React.Component {
 
   returnCurrencies(data, basepath) {
     const ret = data.map((element, i) => {
-      if (i < 50) {
-        return <tr key={i} onClick={e => this.addOrRemoveCurrency(element)}>
-          <th scope="row">{element.Id}</th>
-          <td>{element.CoinName.toUpperCase()}</td>
-          <td>{element.Name}</td>
-          <td>{element.Algorithm}</td>
-          <td><Button color="success" onClick={(e) => this.selectCoin(element.Symbol)}>More...</Button></td>
-          <td><img src={basepath + element.ImageUrl + '?width=25'} /></td>
-        </tr>
-      } else {
-        return;
-      }
-
+      return <Gridrow
+        data={element}
+        key={i}
+        baseurl={basepath}
+        isSelected={() => this.selectCoin(element.Symbol)}
+        addToWatched={() => this.addOrRemoveCurrency(element)}
+      />
     }, this);
     const table = <Table dark responsive id='currencies-table'>
       <thead>
@@ -90,4 +85,4 @@ export default connect(
   mapDispatchToProps
 )(Currencies)
 
-// export default About
+
