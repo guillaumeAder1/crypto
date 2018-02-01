@@ -10,24 +10,7 @@ import { Button, Container, Row, Col, Table, Collapse, CardBody, Card, Media } f
 
 class Currencies extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      BaseImageUrl: false
-    };
-  }
-  componentWillMount() {
-    this.props.search()
-  }
-
   returnCurrencies(data, basepath) {
-    if (!this.state.BaseImageUrl) {
-      this.setState({
-        BaseImageUrl: basepath
-      })
-    }
-
-    // const list = Object.keys(data);
     const ret = data.map((element, i) => {
       if (i < 50) {
         return <tr key={i} onClick={e => this.addOrRemoveCurrency(element)}>
@@ -77,13 +60,7 @@ class Currencies extends React.Component {
     this.props.select(coin);
   }
   render() {
-    let currencies;
-    if (!this.props.data) {
-      currencies = this.props.results ? this.returnCurrencies(this.props.results.Data, this.props.results.BaseImageUrl) : false;
-    } else {
-      currencies = this.returnCurrencies(this.props.data, this.state.BaseImageUrl)
-    }
-
+    const currencies = this.props.data && this.props.imgurl ? this.returnCurrencies(this.props.data, this.props.imgurl) : false;
     return (
       <Container fluid>
         <Row>
@@ -102,7 +79,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  search,
   select,
   changePage: () => push('/'),
   add,

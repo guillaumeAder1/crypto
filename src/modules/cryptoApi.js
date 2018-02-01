@@ -39,6 +39,9 @@ export const search = () => {
         dispatch({
             type: FETCHING,
             payload: axios.get('https://min-api.cryptocompare.com/data/all/coinlist').then(res => {
+                /**
+                 * slice the Data results as it is too big
+                 */
                 const arr = Object.keys(res.data.Data);
                 const ret = arr.map((d, i) => {
                     return res.data.Data[d]

@@ -55,6 +55,9 @@ table tr:hover {
 
 #sidebar ul {
     list-style: none;
+    margin-bottom: 3px;
+    font-size: 0.9em;
+    padding-left: 20px;
 }
 
 #sidebar div.menu {
