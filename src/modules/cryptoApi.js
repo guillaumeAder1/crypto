@@ -2,12 +2,14 @@ import axios from 'axios'
 export const CURRENCY_FOUND = 'crypto/CURRENCY_FOUND'
 export const FETCHING = 'crypto/FETCHING'
 export const SELECT_COIN = 'crypto/SELECT_COIN'
+export const MULTI_FOUND = 'crypto/MULTI_FOUND'
 
 
 const initialState = {
     fetching: false,
     results: null,
-    selectedCoin: null
+    selectedCoin: null,
+    multiResults: null
 }
 
 export default (state = initialState, action) => {
@@ -16,6 +18,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 results: action.payload
+            }
+        case MULTI_FOUND:
+            return {
+                ...state,
+                fetching: false,
+                multiResults: action.payload
             }
 
         case FETCHING:
@@ -50,6 +58,28 @@ export const search = () => {
                 dispatch({
                     type: CURRENCY_FOUND,
                     payload: { BaseImageUrl: res.data.BaseImageUrl, Data: f }
+                })
+            })
+        })
+    }
+}
+
+export const searchMulti = (list) => {
+    return (dispatch) => {
+        const requests = list.map(e => {
+            return axios.get((`https://min-api.cryptocompare.com/data/histoday?fsym=${e}&tsym=USD&limit=60&aggregate=3&e=CCCAGG`))
+        })
+        dispatch({
+            type: FETCHING,
+            payload: axios.all(requests).then(res => {
+                const results = res.map((e, i) => {
+                    let d = list[i]
+                    e.data['COIN'] = d;
+                    return e.data
+                })
+                dispatch({
+                    type: MULTI_FOUND,
+                    payload: results
                 })
             })
         })

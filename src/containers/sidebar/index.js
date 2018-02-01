@@ -21,9 +21,13 @@ class Sidebar extends React.Component {
     createList(list) {
         return list.map((d, i) => {
             return <ul key={i}>
-                <li>{d.CoinName.toUpperCase()}</li>
+                <li>{d.CoinName}</li>
             </ul>
         }, this);
+    }
+
+    doCompare() {
+        this.props.changePage()
     }
     render() {
 
@@ -37,7 +41,7 @@ class Sidebar extends React.Component {
                     <div className="menu" md='12' xs='12' onClick={this.toggle}>Watched <Badge className="float-right" color="secondary">{this.props.watched.length}</Badge></div>
                     <Collapse className="btn-block" isOpen={this.state.collapse}>
                         {list}
-                        {list.length > 1 ? <Button block outline size="sm" color="secondary" >Compare</Button> : null}
+                        {list.length > 1 ? <Button onClick={() => this.doCompare()} block outline size="sm" color="secondary" >Compare</Button> : null}
                     </Collapse>
                 </Row>
                 <Row className="box bottom">
@@ -56,7 +60,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    // changePage: () => push('/details')
+    changePage: () => push('/compare')
 }, dispatch)
 
 export default connect(

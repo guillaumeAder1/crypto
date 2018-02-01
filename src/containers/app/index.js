@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom'
 import Graph from '../graph'
 import Sidebar from '../sidebar'
 import Filter from '../filter'
+import VisualManager from '../visual'
 import 'bootstrap/dist/css/bootstrap.css';
 import {
   Collapse,
@@ -82,6 +83,7 @@ class App extends React.Component {
               <main>
                 <Route exact path="/" component={Graph} />
                 <Route exact path="/details" component={Filter} />
+                <Route exact path="/compare" component={VisualManager} />
                 {/* <Route exact path="/details" component={Currencies} /> */}
                 {/* <Route exact path="/details" render={(props) => (<Currencies data="toto" />)} /> */}
               </main>
