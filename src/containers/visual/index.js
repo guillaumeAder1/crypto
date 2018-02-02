@@ -46,6 +46,7 @@ class VisualManager extends React.Component {
                         <Button color="primary" onClick={() => this.changeType('histoday')} >Day</Button>
                     </ButtonGroup>
                 </p>
+
                 {isMultiResults.length ? <MultiVisual data={isMultiResults} type='line' /> : false}
 
             </div>

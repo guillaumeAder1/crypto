@@ -4,6 +4,7 @@ import * as d3 from 'd3'
 // import { max } from 'd3-array';
 // import { select } from 'd3-selection';
 // import { line } from 'd3-shape'
+import { Container, Row, Col } from 'reactstrap'
 
 class Multiple extends React.Component {
     constructor() {
@@ -64,7 +65,6 @@ class Multiple extends React.Component {
      * draw for each COIN results from list
      */
     draw(data, color) {
-        console.log(arguments)
         const stepX = this.node.clientWidth / data.Data.length
         const r = stepX / 2;
         const d = data.Data.map(d => {
@@ -74,7 +74,6 @@ class Multiple extends React.Component {
         const yScale = d3.scaleLinear()
             .domain([0, maxY])
             .range([0, 500]);
-
         if (this.props.type === 'line') {
             const d = data.Data.map((d, i) => {
                 return {
@@ -93,6 +92,11 @@ class Multiple extends React.Component {
             const xScale = d3.scaleLinear()
                 .domain([minX, maxX])
                 .range([0, 500]);
+
+            const xAxis = d3.select(this.node).append('g')
+                .attr("transform", "translate(0," + 500 + ")")
+                .call(d3.axisBottom(xScale));
+
 
             const doLine = d3.line()
                 .x(d => xScale(d.x))
@@ -133,14 +137,23 @@ class Multiple extends React.Component {
     }
     render() {
         return (
-            <div>
-                <p>Multiple visualization</p>
-                <p>{this.state.list}</p>
+            <Container fluid>
+                <Row>
+                    <Col xs='2'>
+                        <p>Multiple visualization</p>
+                        <p>{this.state.list}</p>
+                    </Col>
+                    <Col xs='10'>
+                        <svg ref={node => this.node = node}
+                            width={550} height={550}  >
+                        </svg>
 
-                <svg ref={node => this.node = node}
-                    width={500} height={500}  >
-                </svg>
-            </div>
+                        {/* <svg ref={node => this.node = node}
+                            width="100%" height="100%"  >
+                        </svg> */}
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }
