@@ -47,7 +47,7 @@ class VisualManager extends React.Component {
                     </ButtonGroup>
                 </p>
 
-                {isMultiResults.length ? <MultiVisual data={isMultiResults} type='line' /> : false}
+                {isMultiResults.length ? <MultiVisual data={isMultiResults} type='line' height='250' /> : false}
 
             </div>
         );

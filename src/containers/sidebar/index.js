@@ -41,7 +41,9 @@ class Sidebar extends React.Component {
                     <div className="menu" md='12' xs='12' onClick={this.toggle}>Watched <Badge className="float-right" color="secondary">{this.props.watched.length}</Badge></div>
                     <Collapse className="btn-block" isOpen={this.state.collapse}>
                         {list}
-                        {list.length > 1 ? <Button onClick={() => this.doCompare()} block outline size="sm" color="secondary" >Compare</Button> : null}
+                        {list.length > 1 ? (
+                            <Button onClick={() => this.doCompare()} block outline size="sm" color="secondary" >Compare</Button>
+                        ) : (null)}
                     </Collapse>
                 </Row>
                 <Row className="box bottom">

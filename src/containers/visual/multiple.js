@@ -4,7 +4,7 @@ import * as d3 from 'd3'
 // import { max } from 'd3-array';
 // import { select } from 'd3-selection';
 // import { line } from 'd3-shape'
-import { Container, Row, Col } from 'reactstrap'
+import { Container, Row, Col, ButtonGroup, Button } from 'reactstrap'
 
 class Multiple extends React.Component {
     constructor() {
@@ -66,6 +66,7 @@ class Multiple extends React.Component {
      */
     draw(data, color) {
         const stepX = this.node.clientWidth / data.Data.length
+        const xWidth = this.node.clientWidth
         const r = stepX / 2;
         const d = data.Data.map(d => {
             return { time: d.time, val: d.high }
@@ -73,7 +74,7 @@ class Multiple extends React.Component {
         const maxY = d3.max(d, d => d.val);
         const yScale = d3.scaleLinear()
             .domain([0, maxY])
-            .range([0, 500]);
+            .range([0, this.props.height]);
         if (this.props.type === 'line') {
             const d = data.Data.map((d, i) => {
                 return {
@@ -85,25 +86,25 @@ class Multiple extends React.Component {
             const maxX = d3.max(d, d => d.x);
             const minX = d3.min(d, d => d.x);
 
-            const yScale = d3.scaleLinear()
+            this.yScale = d3.scaleLinear()
                 .domain([0, maxY])
-                .range([0, 500]);
+                .range([0, this.props.height]);
 
-            const xScale = d3.scaleLinear()
+            this.xScale = d3.scaleLinear()
                 .domain([minX, maxX])
-                .range([0, 500]);
+                .range([0, xWidth]);
 
             const xAxis = d3.select(this.node).append('g')
                 .attr("transform", "translate(0," + 500 + ")")
-                .call(d3.axisBottom(xScale));
+                .call(d3.axisBottom(this.xScale));
 
 
             const doLine = d3.line()
-                .x(d => xScale(d.x))
-                .y(d => yScale(d.y))
+                .x(d => this.xScale(d.x))
+                .y(d => this.yScale(d.y))
                 .curve(d3.curveBasis)
 
-            d3.select(this.node).append('g').attr('id', color + data.COIN)
+            d3.select(this.node).append('g').attr('id', color + data.COIN).attr('class', 'cuvre')
                 .append('svg:path')
                 .attr('d', doLine(d))
                 .style("stroke-width", 2)
@@ -130,6 +131,39 @@ class Multiple extends React.Component {
 
     }
 
+    changeData() {
+        this.props.data.forEach(data => {
+            const d2 = data.Data.map(d => {
+                return {
+                    x: d.time,
+                    y: d.open
+                }
+            })
+            const maxY = d3.max(d2, d => d.y);
+            const maxX = d3.max(d2, d => d.x);
+            const minX = d3.min(d2, d => d.x);
+            const yScale = d3.scaleLinear()
+                .domain([0, maxY])
+                .range([0, 500]);
+
+            const doLine = d3.line()
+                .x(d => this.xScale(d2.x))
+                .y(d => this.yScale(d2.y))
+                .curve(d3.curveBasis)
+            // const xScale = d3.scaleLinear()
+            //     .domain([minX, maxX])
+            //     .range([0, 500]);
+
+            // const xAxis = d3.select(this.node).append('g')
+            //     .attr("transform", "translate(0," + 500 + ")")
+            //     .call(d3.axisBottom(xScale));
+            const curves = d3.selectAll('g.curve').transition();
+            curves.attr("d", doLine(d2))
+
+
+        })
+    }
+
     componentWillReceiveProps(nextProps) {
         console.log(nextProps)
         d3.select(this.node).selectAll('g').remove()
@@ -142,10 +176,13 @@ class Multiple extends React.Component {
                     <Col xs='2'>
                         <p>Multiple visualization</p>
                         <p>{this.state.list}</p>
+                        <p>
+                            <Button onClick={() => this.changeData()} >change</Button>
+                        </p>
                     </Col>
                     <Col xs='10'>
                         <svg ref={node => this.node = node}
-                            width={550} height={550}  >
+                            width="100%" height={this.props.height}  >
                         </svg>
 
                         {/* <svg ref={node => this.node = node}
