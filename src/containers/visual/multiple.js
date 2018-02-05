@@ -64,8 +64,29 @@ class Multiple extends React.Component {
         // get axis value based on [0]
         this.drawAxis(this.props.data[0]);
     }
-    drawAxis() {
+    drawAxis(data) {
+        const _xWidth = this.node.clientWidth
+        const _margin = 25
+        // const parseDate = d3.timeParse("%d-%b-%y");
 
+        // Y AXIS left
+        const _maxY = d3.max(data.Data, d => d.high);
+        const _yScale = d3.scaleLinear()
+            .domain([0, _maxY])
+            .range([0, this.props.height - _margin]);
+        const _yAxis = d3.select(this.node).append('g')
+            .attr("transform", "translate(" + _margin + ", 0)")
+            .call(d3.axisLeft(_yScale).ticks(3));
+
+        // X AXIS bottom
+        const _maxX = d3.max(data.Data, d => d.time * 1000);
+        const _minX = d3.min(data.Data, d => d.time * 1000);
+        const _xScale = d3.scaleLinear()
+            .domain([_minX, _maxX])
+            .range([_margin, _xWidth]);
+        const _xAxis = d3.select(this.node).append('g')
+            .attr("transform", "translate( 0," + (this.props.height - _margin) + ")")
+            .call(d3.axisBottom(_xScale));
     }
     /**
      * draw for each COIN results from list
@@ -102,13 +123,13 @@ class Multiple extends React.Component {
                 .domain([minX, maxX])
                 .range([margin, xWidth]);
 
-            const xAxis = d3.select(this.node).append('g')
-                .attr("transform", "translate( 0," + (this.props.height - margin) + ")")
-                .call(d3.axisBottom(this.xScale));
+            // const xAxis = d3.select(this.node).append('g')
+            //     .attr("transform", "translate( 0," + (this.props.height - margin) + ")")
+            //     .call(d3.axisBottom(this.xScale));
 
-            const yAxis = d3.select(this.node).append('g')
-                .attr("transform", "translate(" + margin + ",0)")
-                .call(d3.axisLeft(this.yScale))
+            // const yAxis = d3.select(this.node).append('g')
+            //     .attr("transform", "translate(" + margin + ",0)")
+            //     .call(d3.axisLeft(this.yScale).ticks(5))
 
             const doLine = d3.line()
                 .x(d => this.xScale(d.x))
