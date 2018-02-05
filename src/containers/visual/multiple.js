@@ -48,7 +48,7 @@ class Multiple extends React.Component {
         }
     }
     /**
-     * get SVG
+     * get SVG and draw for each selected COINS
      */
     initDraw() {
         const node = this.node ? this.node : false;
@@ -60,6 +60,12 @@ class Multiple extends React.Component {
         this.props.data.forEach((element, i) => {
             this.draw(element, this.colors[i])
         });
+
+        // get axis value based on [0]
+        this.drawAxis(this.props.data[0]);
+    }
+    drawAxis() {
+
     }
     /**
      * draw for each COIN results from list
@@ -67,6 +73,7 @@ class Multiple extends React.Component {
     draw(data, color) {
         const stepX = this.node.clientWidth / data.Data.length
         const xWidth = this.node.clientWidth
+        const margin = 25;
         const r = stepX / 2;
         const d = data.Data.map(d => {
             return { time: d.time, val: d.high }
@@ -75,6 +82,7 @@ class Multiple extends React.Component {
         const yScale = d3.scaleLinear()
             .domain([0, maxY])
             .range([0, this.props.height]);
+
         if (this.props.type === 'line') {
             const d = data.Data.map((d, i) => {
                 return {
@@ -88,16 +96,19 @@ class Multiple extends React.Component {
 
             this.yScale = d3.scaleLinear()
                 .domain([0, maxY])
-                .range([0, this.props.height]);
+                .range([0, this.props.height - margin]);
 
             this.xScale = d3.scaleLinear()
                 .domain([minX, maxX])
-                .range([0, xWidth]);
+                .range([margin, xWidth]);
 
             const xAxis = d3.select(this.node).append('g')
-                .attr("transform", "translate(0," + 500 + ")")
+                .attr("transform", "translate( 0," + (this.props.height - margin) + ")")
                 .call(d3.axisBottom(this.xScale));
 
+            const yAxis = d3.select(this.node).append('g')
+                .attr("transform", "translate(" + margin + ",0)")
+                .call(d3.axisLeft(this.yScale))
 
             const doLine = d3.line()
                 .x(d => this.xScale(d.x))
@@ -196,3 +207,5 @@ class Multiple extends React.Component {
 }
 
 export default Multiple;
+
+// http://bl.ocks.org/d3noob/7030f35b72de721622b8
