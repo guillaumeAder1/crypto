@@ -73,9 +73,9 @@ class Multiple extends React.Component {
         const _maxY = d3.max(data.Data, d => d.high);
         const _yScale = d3.scaleLinear()
             .domain([0, _maxY])
-            .range([0, this.props.height - _margin]);
+            .range([0, this.props.height - (_margin * 2)]);
         const _yAxis = d3.select(this.node).append('g')
-            .attr("transform", "translate(" + _margin + ", 0)")
+            .attr("transform", "translate(" + _margin + ",  " + _margin + ")")
             .call(d3.axisLeft(_yScale).ticks(3));
 
         // X AXIS bottom
@@ -86,7 +86,7 @@ class Multiple extends React.Component {
             .range([_margin, _xWidth]);
         const _xAxis = d3.select(this.node).append('g')
             .attr("transform", "translate( 0," + (this.props.height - _margin) + ")")
-            .call(d3.axisBottom(_xScale));
+            .call(d3.axisBottom(_xScale).tickFormat(d3.timeFormat("%d-%m-%Y")));
     }
     /**
      * draw for each COIN results from list
@@ -117,7 +117,7 @@ class Multiple extends React.Component {
 
             this.yScale = d3.scaleLinear()
                 .domain([0, maxY])
-                .range([0, this.props.height - margin]);
+                .range([0, this.props.height - (margin * 2)]);
 
             this.xScale = d3.scaleLinear()
                 .domain([minX, maxX])
@@ -136,12 +136,16 @@ class Multiple extends React.Component {
                 .y(d => this.yScale(d.y))
                 .curve(d3.curveBasis)
 
-            d3.select(this.node).append('g').attr('id', color + data.COIN).attr('class', 'cuvre')
+            d3.select(this.node).append('g').attr('id', data.COIN + color).attr('class', 'cuvre')
                 .append('svg:path')
                 .attr('d', doLine(d))
                 .style("stroke-width", 2)
                 .style("stroke", color)
-                .style("fill", "none");
+                .style("fill", "none").on('mouseover', (d, i, p) => {
+                    d3.select(p[i]).style('stroke-width', 4)
+                }).on('mouseout', (d, i, p) => {
+                    d3.select(p[i]).style('stroke-width', 2)
+                });
         } else {
             const d = data.Data.map(d => {
                 return { time: d.time, val: d.high }
@@ -228,5 +232,8 @@ class Multiple extends React.Component {
 }
 
 export default Multiple;
-
+// line transition
 // http://bl.ocks.org/d3noob/7030f35b72de721622b8
+
+// brush 
+//https://bl.ocks.org/mbostock/34f08d5e11952a80609169b7917d4172
