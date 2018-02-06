@@ -171,76 +171,46 @@ class Multiple extends React.Component {
 
     }
 
-    changeData() {
+    changeData(type) {
         const _xWidth2 = this.node.clientWidth
-        const _margin2 = 25
-        const _newdata = this.props.data[0].Data.map(function (d) {
-            return {
-                x: d.time * 1000,
-                y: d.open
-            }
-        });
-        const _maxY2 = d3.max(_newdata, d => d.y);
-        const _maxX2 = d3.max(_newdata, d => d.x);
-        const _minX2 = d3.min(_newdata, d => d.x);
-        const _yScale2 = d3.scaleLinear()
-            .domain([0, _maxY2])
-            .range([0, this.props.height - (_margin2 * 2)]);
-
-        const _xScale2 = d3.scaleLinear()
-            .domain([_minX2, _maxX2])
-            .range([_margin2, _xWidth2]);
-
-        const _doLine2 = d3.line()
-            .x(d => _xScale2(d.x))
-            .y(d => _yScale2(d.y))
-            .curve(d3.curveBasis)
-
-        // // // Scale the range of the data again 
-        // this.xScale.domain(d3.extent(_newdata, function (d) { return d.x; }));
-        // this.yScale.domain([0, d3.max(_newdata, function (d) { return d.y; })]);
-
-        // // Select the section we want to apply our changes to
+        const _margin2 = 25;
         let svg = d3.select(this.node).transition();
-
         // // Make the changes
-        svg.selectAll("g.curve").select('path')   // change the line
-            .duration(750)
-            .attr("d", _doLine2(_newdata));
-        // svg.select(".x.axis") // change the x axis
+        let list = svg.selectAll("g.curve");
+        // .select('path')   // change the line
         //     .duration(750)
-        //     .call(xAxis);
-        // svg.select(".y.axis") // change the y axis
-        //     .duration(750)
-        //     .call(yAxis);
+        //     .attr("d", _doLine2(_newdata));
+
+        this.props.data.forEach((e, i) => {
+            const _newdata = e.Data.map(d => {
+                return {
+                    x: d.time * 1000,
+                    y: d[type]
+                }
+            });
+            const _maxY2 = d3.max(_newdata, d => d.y);
+            const _maxX2 = d3.max(_newdata, d => d.x);
+            const _minX2 = d3.min(_newdata, d => d.x);
+            const _yScale2 = d3.scaleLinear()
+                .domain([0, _maxY2])
+                .range([0, this.props.height - (_margin2 * 2)]);
+
+            const _xScale2 = d3.scaleLinear()
+                .domain([_minX2, _maxX2])
+                .range([_margin2, _xWidth2]);
+
+            const _doLine2 = d3.line()
+                .x(d => _xScale2(d.x))
+                .y(d => _yScale2(d.y))
+                .curve(d3.curveBasis)
+
+            list.filter((el, index) => i === index).select('path')   // change the line
+                .duration(750)
+                .attr("d", _doLine2(_newdata));
+        });
 
 
-        // this.props.data.forEach(data => {
-        //     const d2 = data.Data.map(d => {
-        //         return {
-        //             x: d.time,
-        //             y: d.open
-        //         }
-        //     })
-        //     const maxY = d3.max(d2, d => d.y);
-        //     const maxX = d3.max(d2, d => d.x);
-        //     const minX = d3.min(d2, d => d.x);
-        //     const yScale = d3.scaleLinear()
-        //         .domain([0, maxY])
-        //         .range([0, 500]);
-        //     const doLine = d3.line()
-        //         .x(d => this.xScale(d2.x))
-        //         .y(d => this.yScale(d2.y))
-        //         .curve(d3.curveBasis)
-        //     // const xScale = d3.scaleLinear()
-        //     //     .domain([minX, maxX])
-        //     //     .range([0, 500]);
-        //     // const xAxis = d3.select(this.node).append('g')
-        //     //     .attr("transform", "translate(0," + 500 + ")")
-        //     //     .call(d3.axisBottom(xScale));
-        //     const curves = d3.selectAll('g.curve').transition();
-        //     curves.attr("d", doLine(d2))
-        // })
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -256,7 +226,12 @@ class Multiple extends React.Component {
                         <p>Multiple visualization</p>
                         <p>{this.state.list}</p>
                         <p>
-                            <Button onClick={() => this.changeData()} >change</Button>
+                            <ButtonGroup>
+                                <Button size="sm" outline onClick={() => this.changeData('open')} >Open</Button>
+                                <Button size="sm" outline onClick={() => this.changeData('low')} >Low</Button>
+                                <Button size="sm" outline onClick={() => this.changeData('high')} >High</Button>
+                                <Button size="sm" outline onClick={() => this.changeData('close')} >Close</Button>
+                            </ButtonGroup>
                         </p>
                     </Col>
                     <Col xs='10'>
