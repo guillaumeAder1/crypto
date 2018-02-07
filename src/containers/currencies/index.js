@@ -10,12 +10,24 @@ import { Button, Container, Row, Col, Table, Collapse, CardBody, Card, Media } f
 
 
 class Currencies extends React.Component {
+  constructor(props) {
+    super(props);
+    this.checkIsWatched = this.checkIsWatched.bind(this)
+  }
+
+  checkIsWatched(id) {
+    const isIn = this.props.watched.filter(e => e.Id === id)[0]
+    return !!isIn;
+
+  }
 
   returnCurrencies(data, basepath) {
     const ret = data.map((element, i) => {
+      const _isAdded = this.checkIsWatched(element.Id);
       return <Gridrow
         data={element}
         key={i}
+        isAdded={_isAdded}
         baseurl={basepath}
         isSelected={() => this.selectCoin(element.Symbol)}
         addToWatched={() => this.addOrRemoveCurrency(element)}

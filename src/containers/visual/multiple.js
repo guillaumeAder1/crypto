@@ -174,12 +174,8 @@ class Multiple extends React.Component {
     changeData(type) {
         const _xWidth2 = this.node.clientWidth
         const _margin2 = 25;
-        let svg = d3.select(this.node).transition();
-        // // Make the changes
-        let list = svg.selectAll("g.curve");
-        // .select('path')   // change the line
-        //     .duration(750)
-        //     .attr("d", _doLine2(_newdata));
+        const svg = d3.select(this.node).transition();
+        const list = svg.selectAll("g.curve");
 
         this.props.data.forEach((e, i) => {
             const _newdata = e.Data.map(d => {
@@ -204,13 +200,10 @@ class Multiple extends React.Component {
                 .y(d => _yScale2(d.y))
                 .curve(d3.curveBasis)
 
-            list.filter((el, index) => i === index).select('path')   // change the line
+            list.filter((el, index) => i === index).select('path')   // select correct line // need to double check
                 .duration(750)
                 .attr("d", _doLine2(_newdata));
         });
-
-
-
     }
 
     componentWillReceiveProps(nextProps) {
@@ -218,6 +211,7 @@ class Multiple extends React.Component {
         d3.select(this.node).selectAll('g').remove()
         this.initDraw()
     }
+
     render() {
         return (
             <Container fluid>
@@ -225,14 +219,14 @@ class Multiple extends React.Component {
                     <Col xs='2'>
                         <p>Multiple visualization</p>
                         <p>{this.state.list}</p>
-                        <p>
-                            <ButtonGroup>
-                                <Button size="sm" outline onClick={() => this.changeData('open')} >Open</Button>
-                                <Button size="sm" outline onClick={() => this.changeData('low')} >Low</Button>
-                                <Button size="sm" outline onClick={() => this.changeData('high')} >High</Button>
-                                <Button size="sm" outline onClick={() => this.changeData('close')} >Close</Button>
-                            </ButtonGroup>
-                        </p>
+
+                        <ButtonGroup>
+                            <Button size="sm" outline onClick={() => this.changeData('open')} >Open</Button>
+                            <Button size="sm" outline onClick={() => this.changeData('low')} >Low</Button>
+                            <Button size="sm" outline onClick={() => this.changeData('high')} >High</Button>
+                            <Button size="sm" outline onClick={() => this.changeData('close')} >Close</Button>
+                        </ButtonGroup>
+
                     </Col>
                     <Col xs='10'>
                         <svg ref={node => this.node = node}

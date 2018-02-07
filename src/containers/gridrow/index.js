@@ -6,7 +6,7 @@ class Gridrow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isAdded: false
+            isAdded: this.props.isAdded
         };
     }
 
