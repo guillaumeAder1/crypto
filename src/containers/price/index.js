@@ -6,11 +6,12 @@ import PriceChart from './chart'
 
 class PriceManager extends React.Component {
     componentDidMount() {
-        this.list = this.props.watched.map(e => {
-            return e.Symbol
-        })
-        const valid = this.list[0] ? this.list : ['BTC', 'ETH']
+        this.listSymbol = this.props.watched.map(e => {
+            return [e.Symbol, e.Id]
+        });
+        const valid = this.listSymbol[0] ? this.listSymbol : [['BTC', '1182'], ['ETH', '7605']];
         this.props.getPrice(valid)
+
     }
     render() {
         console.log(this.res, this.props.price)

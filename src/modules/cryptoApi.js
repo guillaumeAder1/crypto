@@ -116,11 +116,14 @@ export const select = (symbol) => {
         })
     }
 }
-
-export const getPrice = (symbolList) => {
+/**
+ * 
+ * @param {*Array} symbolList - list of Symbol IDS e.g  [['BTC', '1182'], ['ETH', '7605']]
+ */
+export const getPrice = (symbolList = [['BTC', '1182'], ['ETH', '7605']]) => {
     return (dispatch) => {
         const requests = symbolList.map(e => {
-            return axios.get((`https://min-api.cryptocompare.com/data/pricehistorical?fsym=${e}&tsyms=BTC,USD,EUR`))
+            return axios.get(`https://min-api.cryptocompare.com/data/pricehistorical?fsym=${e[0]}&tsyms=BTC,USD,EUR`);
         })
         dispatch({
             type: FETCHING_PRICE,
@@ -133,8 +136,35 @@ export const getPrice = (symbolList) => {
                 })
             })
         })
+
     }
 }
+
+
+
+
+/**
+ ***************** example multi grouped request *******************
+ */
+// const requests = symbolList.map(e => {
+//     const price = axios.get(`https://min-api.cryptocompare.com/data/pricehistorical?fsym=${e[0]}&tsyms=BTC,USD,EUR`);
+//     const snapshot = axios.get(`https://min-api.cryptocompare.com/data/pricehistorical?fsym=${e[0]}&tsyms=BTC,USD,EUR`);
+//     //const snapshot = axios.get(`https://www.cryptocompare.com/api/data/coinsnapshotfullbyid/?id=${e[1]}`);
+//     return [price, snapshot]
+// })
+// dispatch({
+//     type: FETCHING_PRICE,
+//     payload: axios.all(requests.map(d => { return axios.all(d) })).then(res => {
+//         dispatch({
+//             type: PRICE_FOUND,
+//             payload: res.reduce((acc, val) => {
+//                 return acc.concat(val.data)
+//             }, [])
+//         })
+//     })
+// })
+
+
 
 //https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR
 //https://www.cryptocompare.com/api/data/coinlist/
