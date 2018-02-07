@@ -3,13 +3,16 @@ export const CURRENCY_FOUND = 'crypto/CURRENCY_FOUND'
 export const FETCHING = 'crypto/FETCHING'
 export const SELECT_COIN = 'crypto/SELECT_COIN'
 export const MULTI_FOUND = 'crypto/MULTI_FOUND'
+export const FETCHING_PRICE = 'crypto/FETCHING_PRICE'
+export const PRICE_FOUND = 'crypto/PRICE_FOUND'
 
 
 const initialState = {
     fetching: false,
     results: null,
     selectedCoin: null,
-    multiResults: null
+    multiResults: null,
+    price: null
 }
 
 export default (state = initialState, action) => {
@@ -36,6 +39,18 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 selectedCoin: action.payload
+            }
+        case FETCHING_PRICE:
+            return {
+                ...state,
+                fetching: true,
+                price: null
+            }
+        case PRICE_FOUND:
+            return {
+                ...state,
+                fetching: false,
+                price: action.payload
             }
 
         default:
@@ -96,6 +111,25 @@ export const select = (symbol) => {
                 dispatch({
                     type: SELECT_COIN,
                     payload: res.data
+                })
+            })
+        })
+    }
+}
+
+export const getPrice = (symbolList) => {
+    return (dispatch) => {
+        const requests = symbolList.map(e => {
+            return axios.get((`https://min-api.cryptocompare.com/data/pricehistorical?fsym=${e}&tsyms=BTC,USD,EUR`))
+        })
+        dispatch({
+            type: FETCHING_PRICE,
+            payload: axios.all(requests).then(res => {
+                dispatch({
+                    type: PRICE_FOUND,
+                    payload: res.reduce((acc, val) => {
+                        return acc.concat(val.data)
+                    }, [])
                 })
             })
         })

@@ -4,6 +4,7 @@ import Graph from '../graph'
 import Sidebar from '../sidebar'
 import Filter from '../filter'
 import VisualManager from '../visual'
+import PriceManager from '../price'
 import 'bootstrap/dist/css/bootstrap.css';
 import {
   Collapse,
@@ -84,6 +85,7 @@ class App extends React.Component {
                 <Route exact path="/" component={Graph} />
                 <Route exact path="/details" component={Filter} />
                 <Route exact path="/compare" component={VisualManager} />
+                <Route exact path="/prices" component={PriceManager} />
                 {/* <Route exact path="/details" component={Currencies} /> */}
                 {/* <Route exact path="/details" render={(props) => (<Currencies data="toto" />)} /> */}
               </main>

@@ -1,34 +1,18 @@
 import React from 'react'
 import * as d3 from 'd3'
-// import { scaleLinear } from 'd3-scale';
-// import { max } from 'd3-array';
-// import { select } from 'd3-selection';
-// import { line } from 'd3-shape'
+import { colors } from '../../utils/utils'
 import { Container, Row, Col, ButtonGroup, Button } from 'reactstrap'
 
 class Multiple extends React.Component {
     constructor() {
         super()
-        this.colors = ['#33ccff', '#ff6633', '#ff33ff', '#ff9933', '#9933ff', '#ffff33',
-            '#99ff33', '#ff3333', '#33ff66', '#ff3333', '#33ffff', '#3366ff',
-            '#cc33ff', '#6633ff', '#ff3399']
+        this.colors = colors
         this.state = {
             list: null,
             colors: null
         }
     }
-    createColors(nbr) {
-        // let listColors =[]
-        // for (let i = 0; i < nbr ; i ++){
-        //     listColors.push()
-        // }
-        // this.setState({
-        //     colors: this.get
-        // })
-    }
-    // getRandomInt(min, max) {
-    //     return Math.floor(Math.random() * (max - min + 1)) + min;
-    // }
+
     componentDidMount() {
         // this.createColors(this.props.data.length)
         const list = this.props.data.map((e, i) => {
@@ -130,14 +114,6 @@ class Multiple extends React.Component {
                 .domain([minX, maxX])
                 .range([margin, xWidth]);
 
-            // const xAxis = d3.select(this.node).append('g')
-            //     .attr("transform", "translate( 0," + (this.props.height - margin) + ")")
-            //     .call(d3.axisBottom(this.xScale));
-
-            // const yAxis = d3.select(this.node).append('g')
-            //     .attr("transform", "translate(" + margin + ",0)")
-            //     .call(d3.axisLeft(this.yScale).ticks(5))
-
             const doLine = this.doTheLine(d)
 
             d3.select(this.node).append('g').attr('id', data.COIN + color).attr('class', 'curve')
@@ -232,10 +208,6 @@ class Multiple extends React.Component {
                         <svg ref={node => this.node = node}
                             width="100%" height={this.props.height}  >
                         </svg>
-
-                        {/* <svg ref={node => this.node = node}
-                            width="100%" height="100%"  >
-                        </svg> */}
                     </Col>
                 </Row>
             </Container>

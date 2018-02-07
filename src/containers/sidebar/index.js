@@ -26,8 +26,8 @@ class Sidebar extends React.Component {
         }, this);
     }
 
-    doCompare() {
-        this.props.changePage()
+    doCompare(val) {
+        this.props.changePage(val)
     }
     render() {
 
@@ -42,7 +42,10 @@ class Sidebar extends React.Component {
                     <Collapse className="btn-block" isOpen={this.state.collapse}>
                         {list}
                         {list.length > 1 ? (
-                            <Button onClick={() => this.doCompare()} block outline size="sm" color="secondary" >Compare</Button>
+                            <Col>
+                                <Button onClick={() => this.doCompare('compare')} block outline size="sm" color="secondary" >Compare</Button>
+                                <Button onClick={() => this.doCompare('prices')} block outline size="sm" color="secondary" >See Prices</Button>
+                            </Col>
                         ) : (null)}
                     </Collapse>
                 </Row>
@@ -62,7 +65,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    changePage: () => push('/compare')
+    changePage: (val) => push('/' + val)
 }, dispatch)
 
 export default connect(
