@@ -11,14 +11,27 @@ class PriceChart extends React.Component {
             currencyType: 'EUR'
         }
         this.getMaxDomain = this.getMaxDomain.bind(this);
+        this.formatData = this.formatData.bind(this)
+
+    }
+    /**
+     * get max value Domain for the currency type
+     */
+    getMaxDomain() {
+        return d3.max(this.props.data, (d) => {
+            const key = Object.keys(d);
+            return d[key][this.state.currencyType]
+        });
     }
 
-    getMaxDomain() {
-        // order data to create scale and range
-        this.props.data.forEach(element => {
-            console.log(element)
-
-        });
+    formatData(data) {
+        return data.map(d => {
+            const t = Object.keys(d);
+            return {
+                val: d[t][this.state.currencyType],
+                name: t[0]
+            }
+        }, this)
     }
     componentDidMount() {
         this.xWidth = this.node.clientWidth;
@@ -28,23 +41,39 @@ class PriceChart extends React.Component {
         this.radius = 15;
         this.stage = d3.select(this.node).append('g');
 
-        const domain = this.getMaxDomain()
+        const domainMax = this.getMaxDomain()
+        const scale = d3.scaleLinear()
+            .domain([domainMax, 0])
+            //.range([0, 200]);
+            .range([this.margin, this.props.height - this.margin]);
+        const type = this.state.currencyType;
 
-        this.stage.selectAll('circle').data(this.props.data).enter().append('circle')
+        const _data = this.formatData(this.props.data);
+        const tooltip = d3.select("body")
+            .append("div")
+            .style("position", "absolute")
+            .style("z-index", "10")
+            .style("visibility", "hidden")
+            .style("background", "#000")
+            .text("a simple tooltip");
+
+        // const tool_tip = d3.tip()
+        //     .attr("class", "d3-tip")
+        //     .offset([-8, 0])
+        //     .html(function (d) { return "Radius: " + d.val; });
+        //d3.select(this.node).call(tool_tip);
+        this.stage.selectAll('circle').data(_data).enter().append('circle')
             .attr('cx', (d, i) => {
                 return (i * this.stepX) + (this.stepX / 2)
             })
-            .attr('cy', (d, i) => {
-                // let key = Object.keys(d);
-                // return d[key][this.state.currencyType]
-                return 35
-            })
+            .attr('cy', d => scale(d.val))
             .attr('r', this.radius)
             .style('fill', (d, i) => {
                 return this.colors[i]
             })
             .style('stroke', 'grey')
             .style('opacity', 0.9)
+            .on('mouseover', d => { console.log(d.val) })
     }
     render() {
         return (
@@ -54,7 +83,8 @@ class PriceChart extends React.Component {
                 </h6>
                 <hr />
                 <svg ref={node => this.node = node}
-                    width="100%" height={this.props.height}  >
+                    width="100%"
+                    height={this.props.height} >
                 </svg>
             </div>
         );
