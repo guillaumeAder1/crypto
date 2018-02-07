@@ -70,7 +70,11 @@ export const search = () => {
                 const ret = arr.map((d, i) => {
                     return res.data.Data[d]
                 }, this)
+
                 const f = ret.slice(0, 50)
+                f.sort((a, b) => {
+                    return a.SortOrder - b.SortOrder
+                })
                 dispatch({
                     type: CURRENCY_FOUND,
                     payload: { BaseImageUrl: res.data.BaseImageUrl, Data: f }

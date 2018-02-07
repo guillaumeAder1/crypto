@@ -41,8 +41,14 @@ class PriceChart extends React.Component {
         this.radius = 15;
         this.stage = d3.select(this.node).append('g');
 
+        const xScale = d3.scaleLinear().range([0, this.props.data.length]);
+        const xAxis = d3.select(this.node).append('g')
+            .attr("transform", "translate(0,0)")
+            .call(d3.axisBottom(xScale));
+
+
         const domainMax = this.getMaxDomain()
-        const scale = d3.scaleLinear()
+        const yScale = d3.scaleLinear()
             .domain([domainMax, 0])
             //.range([0, 200]);
             .range([this.margin, this.props.height - this.margin]);
@@ -66,7 +72,7 @@ class PriceChart extends React.Component {
             .attr('cx', (d, i) => {
                 return (i * this.stepX) + (this.stepX / 2)
             })
-            .attr('cy', d => scale(d.val))
+            .attr('cy', d => yScale(d.val))
             .attr('r', this.radius)
             .style('fill', (d, i) => {
                 return this.colors[i]
