@@ -30,7 +30,7 @@ class VisualManager extends React.Component {
         });
     }
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
+        console.log(nextProps);
     }
     render() {
         const isMultiResults = this.props.multiResults || false;

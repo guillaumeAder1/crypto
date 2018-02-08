@@ -41,10 +41,6 @@ class PriceChart extends React.Component {
         this.radius = 15;
         this.stage = d3.select(this.node).append('g');
 
-        const xScale = d3.scaleLinear().range([0, this.props.data.length]);
-        const xAxis = d3.select(this.node).append('g')
-            .attr("transform", "translate(0,0)")
-            .call(d3.axisBottom(xScale));
 
 
         const domainMax = this.getMaxDomain()
@@ -62,6 +58,14 @@ class PriceChart extends React.Component {
             .style("visibility", "hidden")
             .style("background", "#000")
             .text("a simple tooltip");
+
+        const xScale = d3.scaleBand().rangeRound([0, this.xWidth]);
+        xScale.domain(_data.map(d => d.name));
+        const xAxis = d3.select('#container').append('svg').style('width', this.xWidth).append('g')
+            // .attr("transform", "translate(" + (this.xWidth - this.margin) + ", " + (this.props.height) + ")")
+            .attr("transform", "translate(0,0)")
+            .call(d3.axisBottom(xScale));
+
 
         // const tool_tip = d3.tip()
         //     .attr("class", "d3-tip")
@@ -88,10 +92,12 @@ class PriceChart extends React.Component {
                     chart price
                 </h6>
                 <hr />
-                <svg ref={node => this.node = node}
-                    width="100%"
-                    height={this.props.height} >
-                </svg>
+                <div id='container'>
+                    <svg ref={node => this.node = node}
+                        width="100%"
+                        height={this.props.height} >
+                    </svg>
+                </div>
             </div>
         );
     }
