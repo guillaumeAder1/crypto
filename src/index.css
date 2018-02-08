@@ -140,3 +140,7 @@ span.legende {
     height: 20px;
     border: 1px solid rgb(117, 117, 117);
 }
+
+input.input-range-custom {
+    width: 100%;
+}

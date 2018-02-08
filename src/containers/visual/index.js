@@ -1,7 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { searchMulti } from '../../modules/cryptoApi';
+import { searchMulti, getPriceAtTime } from '../../modules/cryptoApi';
 import MultiVisual from './multiple'
 import { Button, ButtonGroup } from 'reactstrap';
 
@@ -34,6 +34,8 @@ class VisualManager extends React.Component {
     }
     render() {
         const isMultiResults = this.props.multiResults || false;
+
+        this.props.getPriceAtTime(['BTC', 'ETH'], [1518087302099, 1418087302099, 1438087302099])
         return (
             <div>
                 <h5>
@@ -60,7 +62,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    searchMulti
+    searchMulti,
+    getPriceAtTime
 }, dispatch)
 
 export default connect(

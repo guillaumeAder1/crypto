@@ -1,6 +1,7 @@
 import React from 'react'
 import * as d3 from 'd3'
 import { colors } from '../../utils/utils'
+import Slider from './slider'
 
 class PriceChart extends React.Component {
     constructor(props) {
@@ -8,7 +9,8 @@ class PriceChart extends React.Component {
         this.colors = colors;
         this.stage = null;
         this.state = {
-            currencyType: 'EUR'
+            currencyType: 'EUR',
+            timeIndex: 0
         }
         this.getMaxDomain = this.getMaxDomain.bind(this);
         this.formatData = this.formatData.bind(this)
@@ -18,11 +20,16 @@ class PriceChart extends React.Component {
      * get max value Domain for the currency type
      */
     getMaxDomain() {
-        return d3.max(this.props.data, (d) => {
+        return d3.max(this.props.data[this.state.timeIndex], (d) => {
             const key = Object.keys(d);
             return d[key][this.state.currencyType]
         });
     }
+
+    /**
+     * Create slider to change time
+     */
+
 
     formatData(data) {
         return data.map(d => {
@@ -33,24 +40,27 @@ class PriceChart extends React.Component {
             }
         }, this)
     }
-    componentDidMount() {
+
+    componentWillReceiveProps(nextProps) {
+        d3.select(this.node).selectAll('g').remove()
+        d3.select('svg#xaxis').select('g').remove()
+        this.draw()
+        console.log(nextProps)
+    }
+
+    draw() {
         this.xWidth = this.node.clientWidth;
-        this.stepX = this.xWidth / this.props.data.length;
+        this.stepX = this.xWidth / this.props.data[this.state.timeIndex].length;
         this.margin = 25;
         // this.radius = (this.stepX / 2) * 0.5;
         this.radius = 15;
         this.stage = d3.select(this.node).append('g');
-
-
-
         const domainMax = this.getMaxDomain()
         const yScale = d3.scaleLinear()
             .domain([domainMax, 0])
-            //.range([0, 200]);
             .range([this.margin, this.props.height - this.margin]);
         const type = this.state.currencyType;
-
-        const _data = this.formatData(this.props.data);
+        const _data = this.formatData(this.props.data[this.state.timeIndex]);
         const tooltip = d3.select("body")
             .append("div")
             .style("position", "absolute")
@@ -59,19 +69,12 @@ class PriceChart extends React.Component {
             .style("background", "#000")
             .text("a simple tooltip");
 
-        const xScale = d3.scaleBand().rangeRound([0, this.xWidth]);
+        const xScale = d3.scaleBand().rangeRound([0, this.xWidth - 1]);
         xScale.domain(_data.map(d => d.name));
-        const xAxis = d3.select('#container').append('svg').style('width', this.xWidth).append('g')
-            // .attr("transform", "translate(" + (this.xWidth - this.margin) + ", " + (this.props.height) + ")")
+        this.xAxis = d3.select('#containerUI').append('svg').attr('id', 'xaxis').style('width', this.xWidth).style('height', 50).append('g')
             .attr("transform", "translate(0,0)")
             .call(d3.axisBottom(xScale));
 
-
-        // const tool_tip = d3.tip()
-        //     .attr("class", "d3-tip")
-        //     .offset([-8, 0])
-        //     .html(function (d) { return "Radius: " + d.val; });
-        //d3.select(this.node).call(tool_tip);
         this.stage.selectAll('circle').data(_data).enter().append('circle')
             .attr('cx', (d, i) => {
                 return (i * this.stepX) + (this.stepX / 2)
@@ -85,6 +88,47 @@ class PriceChart extends React.Component {
             .style('opacity', 0.9)
             .on('mouseover', d => { console.log(d.val) })
     }
+    componentDidMount() {
+        this.draw()
+        // this.xWidth = this.node.clientWidth;
+        // this.stepX = this.xWidth / this.props.data[this.state.timeIndex].length;
+        // this.margin = 25;
+        // // this.radius = (this.stepX / 2) * 0.5;
+        // this.radius = 15;
+        // this.stage = d3.select(this.node).append('g');
+        // const domainMax = this.getMaxDomain()
+        // const yScale = d3.scaleLinear()
+        //     .domain([domainMax, 0])
+        //     .range([this.margin, this.props.height - this.margin]);
+        // const type = this.state.currencyType;
+        // const _data = this.formatData(this.props.data[this.state.timeIndex]);
+        // const tooltip = d3.select("body")
+        //     .append("div")
+        //     .style("position", "absolute")
+        //     .style("z-index", "10")
+        //     .style("visibility", "hidden")
+        //     .style("background", "#000")
+        //     .text("a simple tooltip");
+
+        // const xScale = d3.scaleBand().rangeRound([0, this.xWidth - 1]);
+        // xScale.domain(_data.map(d => d.name));
+        // const xAxis = d3.select('#containerUI').append('svg').style('width', this.xWidth).style('height', 50).append('g')
+        //     .attr("transform", "translate(0,0)")
+        //     .call(d3.axisBottom(xScale));
+
+        // this.stage.selectAll('circle').data(_data).enter().append('circle')
+        //     .attr('cx', (d, i) => {
+        //         return (i * this.stepX) + (this.stepX / 2)
+        //     })
+        //     .attr('cy', d => yScale(d.val))
+        //     .attr('r', this.radius)
+        //     .style('fill', (d, i) => {
+        //         return this.colors[i]
+        //     })
+        //     .style('stroke', 'grey')
+        //     .style('opacity', 0.9)
+        //     .on('mouseover', d => { console.log(d.val) })
+    }
     render() {
         return (
             <div>
@@ -92,12 +136,14 @@ class PriceChart extends React.Component {
                     chart price
                 </h6>
                 <hr />
-                <div id='container'>
+                <div id='containerUI'>
                     <svg ref={node => this.node = node}
                         width="100%"
                         height={this.props.height} >
                     </svg>
                 </div>
+
+                {this.props.dates ? <Slider nbrSteps={this.props.data.length} dates={this.props.dates} /> : false}
             </div>
         );
     }

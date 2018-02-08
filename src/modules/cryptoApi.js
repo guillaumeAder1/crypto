@@ -5,6 +5,7 @@ export const SELECT_COIN = 'crypto/SELECT_COIN'
 export const MULTI_FOUND = 'crypto/MULTI_FOUND'
 export const FETCHING_PRICE = 'crypto/FETCHING_PRICE'
 export const PRICE_FOUND = 'crypto/PRICE_FOUND'
+export const PRICE_BY_TIME_FOUND = 'crypto/PRICE_BY_TIME_FOUND'
 
 
 const initialState = {
@@ -28,7 +29,6 @@ export default (state = initialState, action) => {
                 fetching: false,
                 multiResults: action.payload
             }
-
         case FETCHING:
             return {
                 ...state,
@@ -44,7 +44,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 fetching: true,
-                price: null
+                //price: null
             }
         case PRICE_FOUND:
             return {
@@ -52,7 +52,13 @@ export default (state = initialState, action) => {
                 fetching: false,
                 price: action.payload
             }
+        case PRICE_BY_TIME_FOUND:
+            return {
+                ...state,
+                fetching: false,
+                price: action.payload
 
+            }
         default:
             return state
     }
@@ -124,19 +130,41 @@ export const select = (symbol) => {
  * 
  * @param {*Array} symbolList - list of Symbol IDS e.g  [['BTC', '1182'], ['ETH', '7605']]
  */
-export const getPrice = (symbolList = [['BTC', '1182'], ['ETH', '7605']]) => {
+export const getPrice = (symbolList = [['BTC', '1182'], ['ETH', '7605']], time = new Date().getTime()) => {
     return (dispatch) => {
         const requests = symbolList.map(e => {
-            return axios.get(`https://min-api.cryptocompare.com/data/pricehistorical?fsym=${e[0]}&tsyms=BTC,USD,EUR`);
+            return axios.get(`https://min-api.cryptocompare.com/data/pricehistorical?fsym=${e[0]}&tsyms=BTC,USD,EUR&ts=${time}`);
         })
         dispatch({
             type: FETCHING_PRICE,
             payload: axios.all(requests).then(res => {
                 dispatch({
                     type: PRICE_FOUND,
-                    payload: res.reduce((acc, val) => {
-                        return acc.concat(val.data)
-                    }, [])
+                    payload: res.reduce((acc, val) => acc.concat(val.data), [])
+                })
+            })
+        })
+
+    }
+}
+export const getPriceAtTime = (symbolList = ['BTC', 'ETH'], timeList) => {
+    return (dispatch) => {
+        const requests = timeList.map(time => {
+            return symbolList.map(e => {
+                return axios.get(`https://min-api.cryptocompare.com/data/pricehistorical?fsym=${e}&tsyms=BTC,USD,EUR&ts=${time}`);
+            })
+        });
+        console.log(requests)
+        dispatch({
+            type: FETCHING_PRICE,
+            payload: axios.all(requests.map(d => axios.all(d))).then(res => {
+                const formated = res.reduce((acc, val) => {
+                    let _d = val.map(d => d.data)
+                    return acc.concat([_d])
+                }, [])
+                dispatch({
+                    type: PRICE_FOUND,
+                    payload: formated
                 })
             })
         })
