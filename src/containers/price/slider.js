@@ -3,6 +3,10 @@ import React from 'react'
 class Slider extends React.Component {
 
     render() {
+
+        console.log("slider.js render() :: ")
+
+
         const ticks = new Array(this.props.nbrSteps).fill({});
         const step = Math.round(100 / (this.props.nbrSteps - 1));
         const options = ticks.map((d, i) => <option value={step * i} label={i + "%"} />)

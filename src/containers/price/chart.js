@@ -13,8 +13,7 @@ class PriceChart extends React.Component {
             timeIndex: 0
         }
         this.getMaxDomain = this.getMaxDomain.bind(this);
-        this.formatData = this.formatData.bind(this)
-
+        this.formatData = this.formatData.bind(this);
     }
     /**
      * get max value Domain for the currency type
@@ -41,11 +40,20 @@ class PriceChart extends React.Component {
         }, this)
     }
 
+    shouldComponentUpdate(props, state) {
+        // console.log(props, state);
+        console.log("chart.js shouldComponentUpdate() :: ")
+
+        return true
+    }
     componentWillReceiveProps(nextProps) {
         d3.select(this.node).selectAll('g').remove()
-        d3.select('svg#xaxis').select('g').remove()
+        if (this.xAxis) { this.xAxis.remove() }
+        console.log("chart.js componentWillReceiveProps() :: ")
+    }
+    componentDidUpdate() {
         this.draw()
-        console.log(nextProps)
+
     }
 
     draw() {
@@ -71,7 +79,8 @@ class PriceChart extends React.Component {
 
         const xScale = d3.scaleBand().rangeRound([0, this.xWidth - 1]);
         xScale.domain(_data.map(d => d.name));
-        this.xAxis = d3.select('#containerUI').append('svg').attr('id', 'xaxis').style('width', this.xWidth).style('height', 50).append('g')
+        this.xAxis = d3.select('#containerUI').append('svg').attr('id', 'xaxis')
+        this.xAxis.style('width', this.xWidth).style('height', 50).append('g')
             .attr("transform", "translate(0,0)")
             .call(d3.axisBottom(xScale));
 
@@ -89,7 +98,10 @@ class PriceChart extends React.Component {
             .on('mouseover', d => { console.log(d.val) })
     }
     componentDidMount() {
-        this.draw()
+        // this.draw()
+        console.log("chart.js componentDidMount() :: ")
+
+
         // this.xWidth = this.node.clientWidth;
         // this.stepX = this.xWidth / this.props.data[this.state.timeIndex].length;
         // this.margin = 25;
@@ -130,6 +142,7 @@ class PriceChart extends React.Component {
         //     .on('mouseover', d => { console.log(d.val) })
     }
     render() {
+        console.log("chart.js render() :: ");
         return (
             <div>
                 <h6>
