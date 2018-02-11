@@ -1,6 +1,31 @@
 import React from 'react'
 
 class Slider extends React.Component {
+    constructor(props) {
+        super(props)
+        this.updateSlider = this.updateSlider.bind(this);
+        this.state = {
+            date: this.props.dates[this.props.nbrSteps - 1]
+        }
+    }
+    componentWillMount() {
+        console.log('slider.js componentWillMount')
+        // this.setState({
+        //     date: this.props.dates[this.props.nbrSteps]
+        // })
+    }
+    componentWillReceiveProps(nextProps) {
+        // this.setState({
+        //     date: this.props.dates[this.props.nbrSteps]
+        // })
+    }
+    updateSlider(value) {
+        const index = Math.round(value / (Math.round(100 / (this.props.nbrSteps - 1))));
+        this.props.onUpdate(index);
+        this.setState({
+            date: this.props.dates[index]
+        })
+    }
 
     render() {
 
@@ -9,9 +34,10 @@ class Slider extends React.Component {
 
         const ticks = new Array(this.props.nbrSteps).fill({});
         const step = Math.round(100 / (this.props.nbrSteps - 1));
-        const options = ticks.map((d, i) => <option value={step * i} label={i + "%"} />)
+        const options = ticks.map((d, i) => <option key={i} value={step * i} label={i + "%"} />)
         const datalist = <datalist id="tickmarks">{options}</datalist>
-        const formatedDate = new Date(this.props.dates[0])
+        const formatedDate = new Date(this.state.date);
+
         return (
             <div>
                 <h6>{formatedDate.toDateString()}</h6>
@@ -19,24 +45,11 @@ class Slider extends React.Component {
                     step={step}
                     className="input-range-custom"
                     defaultValue='100'
-                    onChange={e => console.log(e.target.value)}
+                    onChange={e => this.updateSlider(e.target.value)}
                 //min='0' max='100'
                 />
                 {datalist}
-                {/* <datalist id="tickmarks"> */}
-                {/* {options} */}
-                {/* <option value="0" label="0%" />
-                    <option value="10" />
-                    <option value="20" />
-                    <option value="30" />
-                    <option value="40" />
-                    <option value="50" label="50%" />
-                    <option value="60" />
-                    <option value="70" />
-                    <option value="80" />
-                    <option value="90" />
-                    <option value="100" label="100%" /> */}
-                {/* </datalist> */}
+
             </div>
         );
 

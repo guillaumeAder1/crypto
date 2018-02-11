@@ -14,6 +14,7 @@ class PriceChart extends React.Component {
         }
         this.getMaxDomain = this.getMaxDomain.bind(this);
         this.formatData = this.formatData.bind(this);
+        this.sliderChangeEvent = this.sliderChangeEvent.bind(this)
     }
     /**
      * get max value Domain for the currency type
@@ -141,6 +142,9 @@ class PriceChart extends React.Component {
         //     .style('opacity', 0.9)
         //     .on('mouseover', d => { console.log(d.val) })
     }
+    sliderChangeEvent(index) {
+        console.log(index)
+    }
     render() {
         console.log("chart.js render() :: ");
         return (
@@ -156,7 +160,7 @@ class PriceChart extends React.Component {
                     </svg>
                 </div>
 
-                {this.props.dates ? <Slider nbrSteps={this.props.data.length} dates={this.props.dates} /> : false}
+                {this.props.dates ? <Slider onUpdate={this.sliderChangeEvent} nbrSteps={this.props.data.length} dates={this.props.dates} /> : false}
             </div>
         );
     }

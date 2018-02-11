@@ -11,7 +11,7 @@ class PriceManager extends React.Component {
             return e.Symbol
         });
         const valid = this.listSymbol[0] ? this.listSymbol : ['BTC', 'ETH'];
-        this.dates = [1518087302099, 1418087302099, 1438087302099]
+        this.dates = [1518087302099, 1418087302099, 1438087302099, 1437087302099]
         this.props.getPriceAtTime(valid, this.dates);
         console.log("Price Index.js, componenentDidMount() :: ")
     }
