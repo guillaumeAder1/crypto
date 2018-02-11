@@ -43,8 +43,10 @@ class PriceChart extends React.Component {
 
     shouldComponentUpdate(props, state) {
         // console.log(props, state);
-        console.log("chart.js shouldComponentUpdate() :: ")
-
+        console.log("chart.js shouldComponentUpdate() :: ", props, state)
+        if (state.timeIndex !== this.state.timeIndex) {
+            return false;
+        }
         return true
     }
     componentWillReceiveProps(nextProps) {
@@ -103,50 +105,17 @@ class PriceChart extends React.Component {
         console.log("chart.js componentDidMount() :: ")
 
 
-        // this.xWidth = this.node.clientWidth;
-        // this.stepX = this.xWidth / this.props.data[this.state.timeIndex].length;
-        // this.margin = 25;
-        // // this.radius = (this.stepX / 2) * 0.5;
-        // this.radius = 15;
-        // this.stage = d3.select(this.node).append('g');
-        // const domainMax = this.getMaxDomain()
-        // const yScale = d3.scaleLinear()
-        //     .domain([domainMax, 0])
-        //     .range([this.margin, this.props.height - this.margin]);
-        // const type = this.state.currencyType;
-        // const _data = this.formatData(this.props.data[this.state.timeIndex]);
-        // const tooltip = d3.select("body")
-        //     .append("div")
-        //     .style("position", "absolute")
-        //     .style("z-index", "10")
-        //     .style("visibility", "hidden")
-        //     .style("background", "#000")
-        //     .text("a simple tooltip");
-
-        // const xScale = d3.scaleBand().rangeRound([0, this.xWidth - 1]);
-        // xScale.domain(_data.map(d => d.name));
-        // const xAxis = d3.select('#containerUI').append('svg').style('width', this.xWidth).style('height', 50).append('g')
-        //     .attr("transform", "translate(0,0)")
-        //     .call(d3.axisBottom(xScale));
-
-        // this.stage.selectAll('circle').data(_data).enter().append('circle')
-        //     .attr('cx', (d, i) => {
-        //         return (i * this.stepX) + (this.stepX / 2)
-        //     })
-        //     .attr('cy', d => yScale(d.val))
-        //     .attr('r', this.radius)
-        //     .style('fill', (d, i) => {
-        //         return this.colors[i]
-        //     })
-        //     .style('stroke', 'grey')
-        //     .style('opacity', 0.9)
-        //     .on('mouseover', d => { console.log(d.val) })
     }
     sliderChangeEvent(index) {
-        console.log(index)
+        console.log('slider change')
         this.setState({
             timeIndex: index
-        })
+        });
+
+        d3.select(this.node).selectAll('g').selectAll('circle').transition()
+            .attr('cy', d => d.val * 2)
+
+
 
     }
     render() {
