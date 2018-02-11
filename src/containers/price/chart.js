@@ -144,6 +144,10 @@ class PriceChart extends React.Component {
     }
     sliderChangeEvent(index) {
         console.log(index)
+        this.setState({
+            timeIndex: index
+        })
+
     }
     render() {
         console.log("chart.js render() :: ");
