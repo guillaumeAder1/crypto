@@ -36,7 +36,7 @@ class Slider extends React.Component {
         const step = Math.round(100 / (this.props.nbrSteps - 1));
         const options = ticks.map((d, i) => <option key={i} value={step * i} label={i + "%"} />)
         const datalist = <datalist id="tickmarks">{options}</datalist>
-        const formatedDate = new Date(this.state.date);
+        const formatedDate = new Date(this.state.date * 1000);
 
         return (
             <div>

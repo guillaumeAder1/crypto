@@ -144,3 +144,11 @@ span.legende {
 input.input-range-custom {
     width: 100%;
 }
+
+.padding {
+    padding: 20px;
+}
+
+.paddingleft {
+    padding-left: 20px;
+}

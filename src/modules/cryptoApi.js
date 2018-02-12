@@ -198,7 +198,6 @@ export const getNews = () => {
 
 
 
-
 /**
  ***************** example multi grouped request *******************
  */

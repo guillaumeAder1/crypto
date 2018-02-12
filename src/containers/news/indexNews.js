@@ -3,6 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getNews } from '../../modules/cryptoApi';
 import Article from './article'
+import { Container, Row, Col } from 'reactstrap';
+
 
 
 class News extends React.Component {
@@ -48,10 +50,10 @@ class News extends React.Component {
         const hasData = this.state.articles;
         const list = (hasData) ? this.state.articles.map((d, i) => { return <Article key={i} data={d} /> }) : false;
         return (
-            <div>
+            <Container>
                 <h1>NEWS</h1>
                 {list}
-            </div>
+            </Container>
         );
     }
 }

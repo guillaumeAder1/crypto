@@ -50,10 +50,10 @@ class App extends React.Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <Link to="/"><NavLink>Currencies List</NavLink></Link>
+                  <Link to="/"><NavLink>Details</NavLink></Link>
                 </NavItem>
                 <NavItem>
-                  <Link to="/details"><NavLink>Details</NavLink></Link>
+                  <Link to="/details"><NavLink>Currencies List</NavLink></Link>
                 </NavItem>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
