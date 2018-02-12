@@ -33,7 +33,7 @@ class Currencies extends React.Component {
         addToWatched={() => this.addOrRemoveCurrency(element)}
       />
     }, this);
-    const table = <Table dark responsive id='currencies-table'>
+    const table = <Table dark='true' responsive id='currencies-table'>
       <thead>
         <tr>
           <th>ID</th>

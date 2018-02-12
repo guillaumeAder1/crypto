@@ -66,7 +66,7 @@ class PriceChart extends React.Component {
         // this.radius = (this.stepX / 2) * 0.5;
         this.radius = 15;
         this.stage = d3.select(this.node).append('g');
-        const domainMax = this.getMaxDomain()
+        const domainMax = this.domainMax = this.getMaxDomain()
         const yScale = d3.scaleLinear()
             .domain([domainMax, 0])
             .range([this.margin, this.props.height - this.margin]);
@@ -110,12 +110,14 @@ class PriceChart extends React.Component {
         console.log('slider change')
         this.setState({
             timeIndex: index
+        }, () => {
+            const newDomain = this.getMaxDomain()
+            const yScale = d3.scaleLinear()
+                .domain([newDomain, 0])
+                .range([this.margin, this.props.height - this.margin]);
+            d3.select(this.node).selectAll('g').selectAll('circle').transition()
+                .attr('cy', d => yScale(d.val));
         });
-
-        d3.select(this.node).selectAll('g').selectAll('circle').transition()
-            .attr('cy', d => d.val * 2)
-
-
 
     }
     render() {
