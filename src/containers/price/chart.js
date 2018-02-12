@@ -43,20 +43,19 @@ class PriceChart extends React.Component {
 
     shouldComponentUpdate(props, state) {
         // console.log(props, state);
-        console.log("chart.js shouldComponentUpdate() :: ", props, state)
+        console.log("chart.js shouldComponentUpdate() :: ", props, state);
         if (state.timeIndex !== this.state.timeIndex) {
             return false;
         }
         return true
     }
     componentWillReceiveProps(nextProps) {
-        d3.select(this.node).selectAll('g').remove()
-        if (this.xAxis) { this.xAxis.remove() }
-        console.log("chart.js componentWillReceiveProps() :: ")
+        d3.select(this.node).selectAll('g').remove();
+        if (this.xAxis) { this.xAxis.remove(); }
+        console.log("chart.js componentWillReceiveProps() :: ");
     }
     componentDidUpdate() {
-        this.draw()
-
+        this.draw();
     }
 
     draw() {

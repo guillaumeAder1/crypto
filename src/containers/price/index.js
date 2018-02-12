@@ -1,7 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getPrice, getPriceAtTime } from '../../modules/cryptoApi';
+import { getPrice, getPriceAtTime, getSocialData } from '../../modules/cryptoApi';
 import PriceChart from './chart'
 
 class PriceManager extends React.Component {
@@ -35,6 +35,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
     getPrice,
     getPriceAtTime
+
 }, dispatch)
 
 export default connect(

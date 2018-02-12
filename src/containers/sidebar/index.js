@@ -35,7 +35,7 @@ class Sidebar extends React.Component {
         return (
             <Container id="sidebar" fluid>
                 <Row className="box bottom">
-                    <Col>Item 1</Col>
+                    <Col onClick={() => this.doCompare('news')}>News</Col>
                 </Row>
                 <Row className="box bottom">
                     <div className="menu" md='12' xs='12' onClick={this.toggle}>Watched <Badge className="float-right" color="secondary">{this.props.watched.length}</Badge></div>

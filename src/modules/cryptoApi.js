@@ -6,6 +6,7 @@ export const MULTI_FOUND = 'crypto/MULTI_FOUND'
 export const FETCHING_PRICE = 'crypto/FETCHING_PRICE'
 export const PRICE_FOUND = 'crypto/PRICE_FOUND'
 export const PRICE_BY_TIME_FOUND = 'crypto/PRICE_BY_TIME_FOUND'
+export const NEWS_FOUND = 'crypto/NEWS_FOUND'
 
 
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
     results: null,
     selectedCoin: null,
     multiResults: null,
-    price: null
+    price: null,
+    news: null
 }
 
 export default (state = initialState, action) => {
@@ -52,6 +54,14 @@ export default (state = initialState, action) => {
                 fetching: false,
                 price: action.payload
             }
+
+        case NEWS_FOUND:
+            return {
+                ...state,
+                fetching: false,
+                news: action.payload
+            }
+
         case PRICE_BY_TIME_FOUND:
             return {
                 ...state,
@@ -169,6 +179,20 @@ export const getPriceAtTime = (symbolList = ['BTC', 'ETH'], timeList) => {
             })
         })
 
+    }
+}
+
+export const getNews = () => {
+    return (dispatch) => {
+        dispatch({
+            type: FETCHING,
+            payload: axios.get(`https://min-api.cryptocompare.com/data/news/`).then(res => {
+                dispatch({
+                    type: NEWS_FOUND,
+                    payload: res.data
+                })
+            })
+        })
     }
 }
 
