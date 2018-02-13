@@ -15,11 +15,15 @@ npm start
 ```
 
 This app is built using [create-react-app-redux.git].
-##API used
+
+#API used
 https://min-api.cryptocompare.com/data/ 
 #Doc:
 https://www.cryptocompare.com/api/
 # todo:
 check this API 
 https://coinmarketcap.com/api/
+
+## demo
+https://guillaumeader1.github.io/crypto/build/
 
